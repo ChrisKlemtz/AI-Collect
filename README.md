@@ -1,5 +1,11 @@
 # 🤖 Multi-AI Hub
 
+<div align="center">
+
+**[🇩🇪 Deutsch](#) | [🇬🇧 English](./README.en.md)**
+
+</div>
+
 > **Eine zentrale Plattform für alle deine KI-Assistenten**
 > Greife auf ChatGPT, Claude und DeepSeek über ein einziges Interface zu und vergleiche ihre Antworten in Echtzeit.
 
