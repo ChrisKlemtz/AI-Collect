@@ -2,8 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AIProvider } from '../types'
 import { useChat } from '../hooks/useChat'
+import { useChatHistory } from '../hooks/useChatHistory'
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts'
 import ThemeToggle from '../components/ThemeToggle'
 import MarkdownMessage from '../components/MarkdownMessage'
+import ChatHistorySidebar from '../components/ChatHistorySidebar'
 import './ChatPage.scss'
 
 function ChatPage() {
@@ -12,9 +15,25 @@ function ChatPage() {
   const [inputMessage, setInputMessage] = useState('')
   const [selectedEmail, setSelectedEmail] = useState<string>('')
   const [apiKey, setApiKey] = useState<string>('')
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const chatId = `${selectedEmail}_${provider}`
+  const {
+    chats,
+    currentChatId,
+    setCurrentChatId,
+    createNewChat,
+    updateChatMessages,
+    renameChat,
+    deleteChat,
+  } = useChatHistory({
+    email: selectedEmail,
+    provider: provider as AIProvider,
+  })
+
+  const chatId = currentChatId || `${selectedEmail}_${provider}`
   const { messages, isLoading, error, streamingMessage, sendMessage, clearChat } = useChat({
     provider: provider as AIProvider,
     apiKey,
@@ -48,6 +67,13 @@ function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, streamingMessage])
 
+  // Update chat history when messages change
+  useEffect(() => {
+    if (messages.length > 0 && currentChatId) {
+      updateChatMessages(currentChatId, messages)
+    }
+  }, [messages, currentChatId, updateChatMessages])
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!inputMessage.trim() || isLoading) return
@@ -69,17 +95,132 @@ function ChatPage() {
     }
   }
 
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    shortcuts: [
+      {
+        key: 'k',
+        ctrlOrCmd: true,
+        description: 'Neuer Chat',
+        action: () => {
+          const newChatId = createNewChat()
+          setCurrentChatId(newChatId)
+        },
+      },
+      {
+        key: 'b',
+        ctrlOrCmd: true,
+        description: 'Chat-Verlauf öffnen/schließen',
+        action: () => {
+          setIsSidebarOpen((prev) => !prev)
+        },
+      },
+      {
+        key: 'l',
+        ctrlOrCmd: true,
+        description: 'Chat löschen',
+        action: () => {
+          if (messages.length > 0 && confirm('Möchtest du den aktuellen Chat wirklich löschen?')) {
+            clearChat()
+          }
+        },
+      },
+      {
+        key: 'Enter',
+        ctrlOrCmd: true,
+        description: 'Nachricht senden',
+        action: () => {
+          if (inputMessage.trim() && !isLoading) {
+            handleSendMessage(new Event('submit') as any)
+          }
+        },
+      },
+      {
+        key: 'Escape',
+        description: 'Input leeren oder Sidebar schließen',
+        action: () => {
+          if (isSidebarOpen) {
+            setIsSidebarOpen(false)
+          } else if (inputMessage) {
+            setInputMessage('')
+          }
+        },
+        preventDefault: false,
+      },
+      {
+        key: '/',
+        ctrlOrCmd: true,
+        description: 'Tastenkombinationen anzeigen',
+        action: () => {
+          setShowShortcutsHelp(true)
+        },
+      },
+    ],
+    enabled: true,
+  })
+
   return (
     <div className="chat-page">
+      <ChatHistorySidebar
+        chats={chats}
+        currentChatId={currentChatId}
+        provider={provider as AIProvider}
+        isOpen={isSidebarOpen}
+        onSelectChat={(chatId) => {
+          setCurrentChatId(chatId)
+          setIsSidebarOpen(false)
+        }}
+        onNewChat={() => {
+          const newChatId = createNewChat()
+          setCurrentChatId(newChatId)
+          setIsSidebarOpen(false)
+        }}
+        onRenameChat={renameChat}
+        onDeleteChat={deleteChat}
+        onClose={() => setIsSidebarOpen(false)}
+      />
+
       <div className="chat-header">
-        <button className="back-btn" onClick={() => navigate('/ai-selection')}>
-          ← Zurück zur Auswahl
-        </button>
+        <div className="header-left">
+          <button
+            className="sidebar-toggle-btn"
+            onClick={() => setIsSidebarOpen(true)}
+            title="Chat-Verlauf"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              width="20"
+              height="20"
+            >
+              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+          </button>
+          <button className="back-btn" onClick={() => navigate('/ai-selection')}>
+            ← Zurück zur Auswahl
+          </button>
+        </div>
         <div className="chat-title">
           <h2>{getProviderName()}</h2>
           <span className="user-email">{selectedEmail}</span>
         </div>
         <div className="chat-header-actions">
+          <button
+            className="shortcuts-btn"
+            onClick={() => setShowShortcutsHelp(true)}
+            title="Tastenkombinationen"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              width="18"
+              height="18"
+            >
+              <path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z" />
+            </svg>
+          </button>
           <ThemeToggle />
           {messages.length > 0 && (
             <button className="clear-btn" onClick={clearChat}>
@@ -88,6 +229,64 @@ function ChatPage() {
           )}
         </div>
       </div>
+
+      {/* Keyboard Shortcuts Help Modal */}
+      {showShortcutsHelp && (
+        <div className="shortcuts-modal-overlay" onClick={() => setShowShortcutsHelp(false)}>
+          <div className="shortcuts-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="shortcuts-modal-header">
+              <h3>Tastenkombinationen</h3>
+              <button className="close-modal-btn" onClick={() => setShowShortcutsHelp(false)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="20"
+                  height="20"
+                >
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg>
+              </button>
+            </div>
+            <div className="shortcuts-modal-content">
+              <div className="shortcut-item">
+                <span className="shortcut-key">
+                  {navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'} + K
+                </span>
+                <span className="shortcut-desc">Neuer Chat</span>
+              </div>
+              <div className="shortcut-item">
+                <span className="shortcut-key">
+                  {navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'} + B
+                </span>
+                <span className="shortcut-desc">Chat-Verlauf öffnen/schließen</span>
+              </div>
+              <div className="shortcut-item">
+                <span className="shortcut-key">
+                  {navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'} + L
+                </span>
+                <span className="shortcut-desc">Chat löschen</span>
+              </div>
+              <div className="shortcut-item">
+                <span className="shortcut-key">
+                  {navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'} + Enter
+                </span>
+                <span className="shortcut-desc">Nachricht senden</span>
+              </div>
+              <div className="shortcut-item">
+                <span className="shortcut-key">Esc</span>
+                <span className="shortcut-desc">Input leeren oder Sidebar schließen</span>
+              </div>
+              <div className="shortcut-item">
+                <span className="shortcut-key">
+                  {navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'} + /
+                </span>
+                <span className="shortcut-desc">Diese Hilfe anzeigen</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="chat-container">
         <div className="chat-messages">
@@ -141,6 +340,7 @@ function ChatPage() {
         <div className="chat-input-container">
           <form className="chat-input-form" onSubmit={handleSendMessage}>
             <input
+              ref={inputRef}
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}

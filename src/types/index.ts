@@ -35,6 +35,16 @@ export interface Chat {
   updatedAt: Date;
 }
 
+export interface ChatHistoryItem {
+  id: string;
+  title: string;
+  provider: AIProvider;
+  lastMessage: string;
+  messageCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // Auth Types
 export interface AuthState {
   isAuthenticated: boolean;

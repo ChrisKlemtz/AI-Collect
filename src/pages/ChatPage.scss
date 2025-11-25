@@ -24,6 +24,42 @@
     border-bottom: 1px solid $bg-light-tertiary;
   }
 
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  .sidebar-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-sm;
+    background: $bg-dark-tertiary;
+    color: $text-dark;
+    border-radius: $radius-md;
+    transition: all $transition-fast;
+
+    body.light-mode & {
+      background: $bg-light-secondary;
+      color: $text-light;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background: lighten($bg-dark-tertiary, 5%);
+      color: $primary-color;
+
+      body.light-mode & {
+        background: darken($bg-light-secondary, 5%);
+      }
+    }
+  }
+
   .back-btn,
   .clear-btn {
     padding: $spacing-sm $spacing-md;
@@ -61,6 +97,36 @@
   display: flex;
   align-items: center;
   gap: $spacing-md;
+
+  .shortcuts-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-sm;
+    background: $bg-dark-tertiary;
+    color: $text-dark-secondary;
+    border-radius: $radius-md;
+    transition: all $transition-fast;
+
+    body.light-mode & {
+      background: $bg-light-secondary;
+      color: $text-light-secondary;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background: lighten($bg-dark-tertiary, 5%);
+      color: $primary-color;
+
+      body.light-mode & {
+        background: darken($bg-light-secondary, 5%);
+      }
+    }
+  }
 }
 
 .chat-title {
@@ -313,5 +379,158 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+// Keyboard Shortcuts Modal
+.shortcuts-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.shortcuts-modal {
+  background: $bg-dark-secondary;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-xl;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+
+  body.light-mode & {
+    background: $bg-light;
+    border: 1px solid $bg-light-tertiary;
+  }
+}
+
+.shortcuts-modal-header {
+  padding: $spacing-lg;
+  border-bottom: 1px solid $bg-dark-tertiary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  body.light-mode & {
+    border-bottom-color: $bg-light-tertiary;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: $text-dark;
+
+    body.light-mode & {
+      color: $text-light;
+    }
+  }
+
+  .close-modal-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-xs;
+    background: transparent;
+    color: $text-dark-secondary;
+    border-radius: $radius-sm;
+    transition: all $transition-fast;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background: $bg-dark-tertiary;
+      color: $text-dark;
+
+      body.light-mode & {
+        background: $bg-light-secondary;
+        color: $text-light;
+      }
+    }
+  }
+}
+
+.shortcuts-modal-content {
+  padding: $spacing-lg;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  background: $bg-dark;
+  border-radius: $radius-md;
+  transition: all $transition-fast;
+
+  body.light-mode & {
+    background: $bg-light-secondary;
+  }
+
+  &:hover {
+    background: lighten($bg-dark, 2%);
+
+    body.light-mode & {
+      background: darken($bg-light-secondary, 2%);
+    }
+  }
+
+  .shortcut-key {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9rem;
+    padding: $spacing-xs $spacing-sm;
+    background: $bg-dark-tertiary;
+    color: $primary-color;
+    border-radius: $radius-sm;
+    font-weight: 600;
+    white-space: nowrap;
+
+    body.light-mode & {
+      background: $bg-light;
+      border: 1px solid $bg-light-tertiary;
+    }
+  }
+
+  .shortcut-desc {
+    flex: 1;
+    margin-left: $spacing-lg;
+    color: $text-dark;
+    text-align: right;
+
+    body.light-mode & {
+      color: $text-light;
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
