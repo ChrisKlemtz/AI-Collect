@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { AIProvider } from '../types'
 import { useChat } from '../hooks/useChat'
 import ThemeToggle from '../components/ThemeToggle'
+import MarkdownMessage from '../components/MarkdownMessage'
 import './ChatPage.scss'
 
 function ChatPage() {
@@ -104,7 +105,11 @@ function ChatPage() {
                   className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'}`}
                 >
                   <div className="message-content">
-                    {message.content}
+                    {message.role === 'assistant' ? (
+                      <MarkdownMessage content={message.content} />
+                    ) : (
+                      message.content
+                    )}
                   </div>
                   <div className="message-timestamp">
                     {new Date(message.timestamp).toLocaleTimeString('de-DE', {
@@ -117,7 +122,7 @@ function ChatPage() {
               {streamingMessage && (
                 <div className="message assistant-message streaming">
                   <div className="message-content">
-                    {streamingMessage}
+                    <MarkdownMessage content={streamingMessage} />
                     <span className="cursor">▋</span>
                   </div>
                 </div>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AIProvider } from '../types'
 import { useCompareChat } from '../hooks/useCompareChat'
 import ThemeToggle from '../components/ThemeToggle'
+import MarkdownMessage from '../components/MarkdownMessage'
 import './CompareChatPage.scss'
 
 const availableProviders: { id: AIProvider; name: string; icon: string }[] = [
@@ -119,7 +120,13 @@ function CompareChatPage() {
                     key={message.id}
                     className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'}`}
                   >
-                    <div className="message-content">{message.content}</div>
+                    <div className="message-content">
+                      {message.role === 'assistant' ? (
+                        <MarkdownMessage content={message.content} />
+                      ) : (
+                        message.content
+                      )}
+                    </div>
                     <div className="message-timestamp">
                       {new Date(message.timestamp).toLocaleTimeString('de-DE', {
                         hour: '2-digit',
@@ -131,7 +138,7 @@ function CompareChatPage() {
                 {streamingMessages.provider1 && (
                   <div className="message assistant-message streaming">
                     <div className="message-content">
-                      {streamingMessages.provider1}
+                      <MarkdownMessage content={streamingMessages.provider1} />
                       <span className="cursor">▋</span>
                     </div>
                   </div>
@@ -179,7 +186,13 @@ function CompareChatPage() {
                     key={message.id}
                     className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'}`}
                   >
-                    <div className="message-content">{message.content}</div>
+                    <div className="message-content">
+                      {message.role === 'assistant' ? (
+                        <MarkdownMessage content={message.content} />
+                      ) : (
+                        message.content
+                      )}
+                    </div>
                     <div className="message-timestamp">
                       {new Date(message.timestamp).toLocaleTimeString('de-DE', {
                         hour: '2-digit',
@@ -191,7 +204,7 @@ function CompareChatPage() {
                 {streamingMessages.provider2 && (
                   <div className="message assistant-message streaming">
                     <div className="message-content">
-                      {streamingMessages.provider2}
+                      <MarkdownMessage content={streamingMessages.provider2} />
                       <span className="cursor">▋</span>
                     </div>
                   </div>
