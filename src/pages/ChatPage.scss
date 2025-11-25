@@ -48,13 +48,19 @@
   }
 
   .clear-btn {
-    margin-left: auto;
     color: $danger-color;
 
     &:hover {
       background: rgba($danger-color, 0.1);
     }
   }
+}
+
+.chat-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
 }
 
 .chat-title {

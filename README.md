@@ -9,7 +9,7 @@ Eine webbasierte Plattform, die Zugriff auf mehrere KI-Dienste von einem zentral
 - **KI-Integration**: ChatGPT (GPT-4o-mini), Claude (Sonnet 3.5), DeepSeek
 - **Streaming Responses**: Live-Antworten von allen KI-Diensten
 - **Chat-Verwaltung**: Automatisches Speichern & Laden von Chats
-- **Minimalistisches Design**: Dark Mode (Light Mode folgt)
+- **Dark/Light Mode**: Umschaltbar mit Theme Toggle auf allen Seiten
 - **API-Key Management**: Sichere lokale Verwaltung von API-Keys
 
 ## Installation
@@ -52,15 +52,19 @@ npm run preview
 - useChat Hook für State-Management
 - Service-Layer-Architektur
 
-### Phase 3 (Geplant):
+### Phase 3 (✅ Abgeschlossen):
+- Dark/Light Mode mit Theme Context
+- Theme Toggle Button auf allen Seiten
+- Theme-Persistenz in localStorage
+- Responsive Theme-Umschaltung
+
+### Phase 4 (Geplant):
 - Backend mit Node.js + Express
 - SQLite Datenbank
 - Authentifizierung & Session-Management
 - Prompt-Presets
 - Multi-Chat-Fenster (Split-View)
-- Light Mode
 - Hotkeys
-- Dark/Light Theme Toggle
 
 ## Verwendung
 

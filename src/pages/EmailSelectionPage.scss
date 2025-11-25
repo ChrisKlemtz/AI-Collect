@@ -3,6 +3,13 @@
 .email-selection-page {
   min-height: 100vh;
   padding: $spacing-2xl $spacing-lg;
+  position: relative;
+
+  .theme-toggle {
+    position: absolute;
+    top: $spacing-lg;
+    right: $spacing-lg;
+  }
 }
 
 .email-selection-container {

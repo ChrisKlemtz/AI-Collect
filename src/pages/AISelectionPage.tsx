@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AIService, AIProvider } from '../types'
+import ThemeToggle from '../components/ThemeToggle'
 import './AISelectionPage.scss'
 
 const availableAIs: AIService[] = [
@@ -104,6 +105,7 @@ function AISelectionPage() {
 
   return (
     <div className="ai-selection-page">
+      <ThemeToggle />
       <div className="ai-selection-container">
         <div className="page-header">
           <button className="back-btn" onClick={() => navigate('/emails')}>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ThemeToggle from '../components/ThemeToggle'
 import './LoginPage.scss'
 
 function LoginPage() {
@@ -20,6 +21,7 @@ function LoginPage() {
 
   return (
     <div className="login-page">
+      <ThemeToggle />
       <div className="login-container">
         <div className="login-header">
           <h1>Multi-AI Hub</h1>

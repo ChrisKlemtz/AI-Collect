@@ -6,6 +6,13 @@
   align-items: center;
   min-height: 100vh;
   padding: $spacing-lg;
+  position: relative;
+
+  .theme-toggle {
+    position: absolute;
+    top: $spacing-lg;
+    right: $spacing-lg;
+  }
 }
 
 .login-container {

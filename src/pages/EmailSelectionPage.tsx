@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ThemeToggle from '../components/ThemeToggle'
 import './EmailSelectionPage.scss'
 
 function EmailSelectionPage() {
@@ -46,6 +47,7 @@ function EmailSelectionPage() {
 
   return (
     <div className="email-selection-page">
+      <ThemeToggle />
       <div className="email-selection-container">
         <div className="page-header">
           <h1>Wähle deine E-Mail</h1>

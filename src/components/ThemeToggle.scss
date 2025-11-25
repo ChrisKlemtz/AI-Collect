@@ -1,0 +1,40 @@
+@import '../styles/variables.scss';
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg-dark-tertiary;
+  border-radius: 50%;
+  color: $text-dark;
+  transition: all $transition-fast;
+  position: relative;
+  overflow: hidden;
+
+  body.light-mode & {
+    background: $bg-light-tertiary;
+    color: $text-light;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    transition: transform $transition-normal;
+  }
+
+  &:hover {
+    background: $primary-color;
+    color: white;
+    transform: scale(1.1);
+
+    svg {
+      transform: rotate(20deg);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}

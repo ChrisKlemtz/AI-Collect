@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AIProvider } from '../types'
 import { useChat } from '../hooks/useChat'
+import ThemeToggle from '../components/ThemeToggle'
 import './ChatPage.scss'
 
 function ChatPage() {
@@ -77,11 +78,14 @@ function ChatPage() {
           <h2>{getProviderName()}</h2>
           <span className="user-email">{selectedEmail}</span>
         </div>
-        {messages.length > 0 && (
-          <button className="clear-btn" onClick={clearChat}>
-            Chat löschen
-          </button>
-        )}
+        <div className="chat-header-actions">
+          <ThemeToggle />
+          {messages.length > 0 && (
+            <button className="clear-btn" onClick={clearChat}>
+              Chat löschen
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="chat-container">
