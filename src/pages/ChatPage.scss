@@ -1,0 +1,191 @@
+@import '../styles/variables.scss';
+
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: $bg-dark;
+
+  body.light-mode & {
+    background: $bg-light;
+  }
+}
+
+.chat-header {
+  padding: $spacing-lg;
+  background: $bg-dark-secondary;
+  border-bottom: 1px solid $bg-dark-tertiary;
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+
+  body.light-mode & {
+    background: $bg-light;
+    border-bottom: 1px solid $bg-light-tertiary;
+  }
+
+  .back-btn {
+    padding: $spacing-sm $spacing-md;
+    background: $bg-dark-tertiary;
+    color: $text-dark;
+    border-radius: $radius-md;
+    font-size: 0.9rem;
+    transition: all $transition-fast;
+
+    body.light-mode & {
+      background: $bg-light-secondary;
+      color: $text-light;
+    }
+
+    &:hover {
+      background: lighten($bg-dark-tertiary, 5%);
+
+      body.light-mode & {
+        background: darken($bg-light-secondary, 5%);
+      }
+    }
+  }
+}
+
+.chat-title {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  h2 {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  .user-email {
+    font-size: 0.85rem;
+    color: $text-dark-secondary;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+  }
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-xl;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  gap: $spacing-md;
+
+  .empty-icon {
+    font-size: 5rem;
+    opacity: 0.5;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    color: $text-dark;
+
+    body.light-mode & {
+      color: $text-light;
+    }
+  }
+
+  p {
+    color: $text-dark-secondary;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+  }
+}
+
+.chat-input-container {
+  padding: $spacing-lg;
+  background: $bg-dark-secondary;
+  border-top: 1px solid $bg-dark-tertiary;
+
+  body.light-mode & {
+    background: $bg-light;
+    border-top: 1px solid $bg-light-tertiary;
+  }
+}
+
+.chat-input-form {
+  display: flex;
+  gap: $spacing-md;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.chat-input {
+  flex: 1;
+  padding: $spacing-md $spacing-lg;
+  background: $bg-dark-tertiary;
+  border: 2px solid transparent;
+  border-radius: $radius-lg;
+  color: $text-dark;
+  font-size: 1rem;
+  transition: all $transition-fast;
+
+  body.light-mode & {
+    background: $bg-light-secondary;
+    color: $text-light;
+  }
+
+  &::placeholder {
+    color: $text-dark-secondary;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+  }
+
+  &:focus {
+    border-color: $primary-color;
+    background: $bg-dark;
+
+    body.light-mode & {
+      background: $bg-light;
+    }
+  }
+}
+
+.send-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  color: white;
+  border-radius: $radius-lg;
+  transition: all $transition-fast;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: $shadow-lg;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

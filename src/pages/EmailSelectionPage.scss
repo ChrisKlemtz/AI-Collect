@@ -1,0 +1,236 @@
+@import '../styles/variables.scss';
+
+.email-selection-page {
+  min-height: 100vh;
+  padding: $spacing-2xl $spacing-lg;
+}
+
+.email-selection-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: $spacing-md;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  p {
+    color: $text-dark-secondary;
+    font-size: 1.1rem;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+  }
+}
+
+.email-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+}
+
+.email-card {
+  position: relative;
+  background: $bg-dark-secondary;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  body.light-mode & {
+    background: $bg-light;
+    border: 1px solid $bg-light-tertiary;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+.email-card-button {
+  width: 100%;
+  padding: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+  background: transparent;
+  color: $text-dark;
+  transition: background $transition-fast;
+
+  body.light-mode & {
+    color: $text-light;
+  }
+
+  &:hover {
+    background: rgba($primary-color, 0.1);
+  }
+}
+
+.email-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  border-radius: $radius-md;
+  color: white;
+
+  svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.email-text {
+  font-size: 1rem;
+  font-weight: 500;
+  word-break: break-word;
+  text-align: center;
+}
+
+.remove-email-btn {
+  position: absolute;
+  top: $spacing-sm;
+  right: $spacing-sm;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba($danger-color, 0.2);
+  color: $danger-color;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity $transition-fast, background $transition-fast;
+
+  .email-card:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: $danger-color;
+    color: white;
+  }
+}
+
+.add-email-card {
+  .email-card-button {
+    border: 2px dashed $bg-dark-tertiary;
+
+    body.light-mode & {
+      border-color: $bg-light-tertiary;
+    }
+  }
+
+  .email-icon {
+    background: $bg-dark-tertiary;
+
+    body.light-mode & {
+      background: $bg-light-tertiary;
+      color: $text-light;
+    }
+  }
+}
+
+.add-email-form-card {
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  input {
+    padding: $spacing-md;
+    background: $bg-dark-tertiary;
+    border: 2px solid transparent;
+    border-radius: $radius-md;
+    color: $text-dark;
+    font-size: 1rem;
+
+    body.light-mode & {
+      background: $bg-light-secondary;
+      color: $text-light;
+    }
+
+    &:focus {
+      border-color: $primary-color;
+    }
+  }
+}
+
+.add-email-actions {
+  display: flex;
+  gap: $spacing-sm;
+
+  button {
+    flex: 1;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-md;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all $transition-fast;
+  }
+}
+
+.btn-add {
+  background: $primary-color;
+  color: white;
+
+  &:hover {
+    background: darken($primary-color, 10%);
+  }
+}
+
+.btn-cancel {
+  background: $bg-dark-tertiary;
+  color: $text-dark;
+
+  body.light-mode & {
+    background: $bg-light-tertiary;
+    color: $text-light;
+  }
+
+  &:hover {
+    background: lighten($bg-dark-tertiary, 5%);
+
+    body.light-mode & {
+      background: darken($bg-light-tertiary, 5%);
+    }
+  }
+}
+
+.btn-logout {
+  display: block;
+  margin: 0 auto;
+  padding: $spacing-md $spacing-xl;
+  background: transparent;
+  color: $text-dark-secondary;
+  border: 1px solid $bg-dark-tertiary;
+  border-radius: $radius-md;
+  font-size: 0.95rem;
+  transition: all $transition-fast;
+
+  body.light-mode & {
+    color: $text-light-secondary;
+    border-color: $bg-light-tertiary;
+  }
+
+  &:hover {
+    border-color: $danger-color;
+    color: $danger-color;
+  }
+}

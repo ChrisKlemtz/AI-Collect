@@ -1,0 +1,139 @@
+@import '../styles/variables.scss';
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: $spacing-lg;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: $spacing-2xl;
+  background: $bg-dark-secondary;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-xl;
+
+  body.light-mode & {
+    background: $bg-light;
+    border: 1px solid $bg-light-tertiary;
+  }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: $spacing-sm;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  p {
+    color: $text-dark-secondary;
+    font-size: 0.95rem;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $text-dark;
+
+    body.light-mode & {
+      color: $text-light;
+    }
+  }
+
+  input {
+    padding: $spacing-md;
+    background: $bg-dark-tertiary;
+    border: 2px solid transparent;
+    border-radius: $radius-md;
+    color: $text-dark;
+    font-size: 1rem;
+    transition: all $transition-fast;
+
+    body.light-mode & {
+      background: $bg-light-secondary;
+      color: $text-light;
+    }
+
+    &::placeholder {
+      color: $text-dark-secondary;
+
+      body.light-mode & {
+        color: $text-light-secondary;
+      }
+    }
+
+    &:focus {
+      border-color: $primary-color;
+      background: $bg-dark;
+
+      body.light-mode & {
+        background: $bg-light;
+      }
+    }
+  }
+}
+
+.btn-primary {
+  padding: $spacing-md;
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  color: white;
+  border-radius: $radius-md;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.login-footer {
+  margin-top: $spacing-xl;
+  text-align: center;
+  font-size: 0.9rem;
+  color: $text-dark-secondary;
+
+  body.light-mode & {
+    color: $text-light-secondary;
+  }
+
+  a {
+    color: $primary-color;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,0 +1,172 @@
+@import '../styles/variables.scss';
+
+.ai-selection-page {
+  min-height: 100vh;
+  padding: $spacing-2xl $spacing-lg;
+}
+
+.ai-selection-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: $spacing-2xl;
+
+  .back-btn {
+    padding: $spacing-sm $spacing-md;
+    margin-bottom: $spacing-lg;
+    background: $bg-dark-secondary;
+    color: $text-dark;
+    border-radius: $radius-md;
+    font-size: 0.9rem;
+    transition: all $transition-fast;
+
+    body.light-mode & {
+      background: $bg-light-secondary;
+      color: $text-light;
+    }
+
+    &:hover {
+      background: $bg-dark-tertiary;
+
+      body.light-mode & {
+        background: $bg-light-tertiary;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: $spacing-sm;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .selected-email {
+    color: $text-dark-secondary;
+    font-size: 0.95rem;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+  }
+}
+
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: $spacing-xl;
+}
+
+.ai-card {
+  position: relative;
+  background: $bg-dark-secondary;
+  border-radius: $radius-xl;
+  padding: $spacing-2xl;
+  cursor: pointer;
+  transition: all $transition-normal;
+  border: 2px solid transparent;
+
+  body.light-mode & {
+    background: $bg-light;
+    border: 2px solid $bg-light-tertiary;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-xl;
+    border-color: $primary-color;
+  }
+
+  &.active {
+    border-color: $success-color;
+
+    &:hover {
+      border-color: $success-color;
+    }
+  }
+}
+
+.ai-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $spacing-md;
+}
+
+.ai-icon {
+  font-size: 4rem;
+  margin-bottom: $spacing-sm;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.ai-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: $spacing-xs;
+}
+
+.ai-card p {
+  color: $text-dark-secondary;
+  font-size: 0.95rem;
+  margin-bottom: $spacing-md;
+
+  body.light-mode & {
+    color: $text-light-secondary;
+  }
+}
+
+.ai-status {
+  margin-top: $spacing-sm;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: $spacing-xs $spacing-md;
+  background: rgba($success-color, 0.2);
+  color: $success-color;
+  border-radius: $radius-md;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.setup-badge {
+  display: inline-block;
+  padding: $spacing-xs $spacing-md;
+  background: rgba($warning-color, 0.2);
+  color: $warning-color;
+  border-radius: $radius-md;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.remove-key-btn {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba($danger-color, 0.2);
+  color: $danger-color;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  line-height: 1;
+  opacity: 0;
+  transition: all $transition-fast;
+
+  .ai-card:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: $danger-color;
+    color: white;
+    transform: scale(1.1);
+  }
+}

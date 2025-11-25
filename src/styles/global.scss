@@ -1,0 +1,156 @@
+@import './variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
+
+// Dark mode (default)
+body {
+  background-color: $bg-dark;
+  color: $text-dark;
+  transition: background-color $transition-normal, color $transition-normal;
+}
+
+// Light mode
+body.light-mode {
+  background-color: $bg-light;
+  color: $text-light;
+}
+
+// Scrollbar styling (dark mode)
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-dark-secondary;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $bg-dark-tertiary;
+  border-radius: $radius-sm;
+
+  &:hover {
+    background: #475569;
+  }
+}
+
+// Light mode scrollbar
+body.light-mode {
+  ::-webkit-scrollbar-track {
+    background: $bg-light-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $bg-light-tertiary;
+
+    &:hover {
+      background: #cbd5e1;
+    }
+  }
+}
+
+// Typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+p {
+  line-height: 1.6;
+}
+
+// Links
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: lighten($primary-color, 10%);
+  }
+}
+
+// Buttons
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+// Inputs
+input,
+textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+// Utility classes
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.gap-sm {
+  gap: $spacing-sm;
+}
+
+.gap-md {
+  gap: $spacing-md;
+}
+
+.gap-lg {
+  gap: $spacing-lg;
+}
