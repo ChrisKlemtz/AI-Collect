@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage'
 import EmailSelectionPage from './pages/EmailSelectionPage'
 import AISelectionPage from './pages/AISelectionPage'
 import ChatPage from './pages/ChatPage'
+import CompareChatPage from './pages/CompareChatPage'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/emails" element={<EmailSelectionPage />} />
           <Route path="/ai-selection" element={<AISelectionPage />} />
           <Route path="/chat/:provider" element={<ChatPage />} />
+          <Route path="/chat/compare" element={<CompareChatPage />} />
         </Routes>
       </Router>
     </ThemeProvider>
