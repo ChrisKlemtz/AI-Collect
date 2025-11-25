@@ -9,7 +9,13 @@
     "preview": "vite preview",
     "lint": "tsc --noEmit"
   },
-  "keywords": ["ai", "chatgpt", "claude", "deepseek", "multi-ai"],
+  "keywords": [
+    "ai",
+    "chatgpt",
+    "claude",
+    "deepseek",
+    "multi-ai"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
@@ -22,6 +28,9 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.0",
+    "axios": "^1.13.2",
+    "openai": "^6.9.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6"

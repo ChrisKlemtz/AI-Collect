@@ -24,7 +24,8 @@
     border-bottom: 1px solid $bg-light-tertiary;
   }
 
-  .back-btn {
+  .back-btn,
+  .clear-btn {
     padding: $spacing-sm $spacing-md;
     background: $bg-dark-tertiary;
     color: $text-dark;
@@ -43,6 +44,15 @@
       body.light-mode & {
         background: darken($bg-light-secondary, 5%);
       }
+    }
+  }
+
+  .clear-btn {
+    margin-left: auto;
+    color: $danger-color;
+
+    &:hover {
+      background: rgba($danger-color, 0.1);
     }
   }
 }
@@ -187,5 +197,115 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+}
+
+// Message styles
+.message {
+  margin-bottom: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+  animation: fadeIn 0.3s ease;
+
+  &.user-message {
+    align-self: flex-end;
+    align-items: flex-end;
+
+    .message-content {
+      background: linear-gradient(135deg, $primary-color, $secondary-color);
+      color: white;
+      border-radius: $radius-lg $radius-lg $radius-sm $radius-lg;
+    }
+  }
+
+  &.assistant-message {
+    align-self: flex-start;
+    align-items: flex-start;
+
+    .message-content {
+      background: $bg-dark-secondary;
+      color: $text-dark;
+      border-radius: $radius-lg $radius-lg $radius-lg $radius-sm;
+
+      body.light-mode & {
+        background: $bg-light-secondary;
+        color: $text-light;
+      }
+    }
+
+    &.streaming .message-content {
+      border: 2px solid $primary-color;
+    }
+  }
+}
+
+.message-content {
+  padding: $spacing-md $spacing-lg;
+  line-height: 1.6;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+
+  .cursor {
+    animation: blink 1s infinite;
+    margin-left: 2px;
+  }
+}
+
+.message-timestamp {
+  font-size: 0.75rem;
+  color: $text-dark-secondary;
+  margin-top: $spacing-xs;
+  padding: 0 $spacing-sm;
+
+  body.light-mode & {
+    color: $text-light-secondary;
+  }
+}
+
+// Error message
+.error-message {
+  padding: $spacing-md;
+  margin: $spacing-md $spacing-xl;
+  background: rgba($danger-color, 0.1);
+  color: $danger-color;
+  border-radius: $radius-md;
+  border-left: 4px solid $danger-color;
+}
+
+// Loading spinner
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
