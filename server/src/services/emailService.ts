@@ -1,11 +1,13 @@
+import '../config/env.js'; // Load env vars first
 import { Resend } from 'resend';
 
-const APP_URL = process.env.APP_URL || 'http://localhost:3001';
+const APP_URL = process.env.APP_URL || 'http://localhost:3000';
 const FROM_EMAIL = process.env.FROM_EMAIL || 'onboarding@resend.dev';
 
 // Initialize Resend only if API key is available
 let resend: Resend | null = null;
 if (process.env.RESEND_API_KEY) {
+  console.log('✅ Resend API key found, initializing email service');
   resend = new Resend(process.env.RESEND_API_KEY);
 } else {
   console.warn('⚠️  RESEND_API_KEY not configured - email verification will not work');

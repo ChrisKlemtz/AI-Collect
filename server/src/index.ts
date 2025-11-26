@@ -1,13 +1,13 @@
+import './config/env.js'; // Load env vars first
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { createRequire } from 'module';
-import './config/database.js'; // Initialize database
+import { db } from './config/database.js'; // Initialize database
 
 // Import routes
 import authRoutes from './routes/auth.js';
@@ -17,9 +17,6 @@ import chatRoutes from './routes/chats.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const require = createRequire(import.meta.url);
-
-// Load environment variables from server directory
-dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -64,6 +61,31 @@ app.use('/api/chats', chatRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
+});
+
+// Debug endpoint to check users (remove in production)
+app.get('/api/debug/users', (req, res) => {
+  db.all('SELECT id, email, email_verified, verification_token, created_at FROM users ORDER BY created_at DESC', (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json({ users: rows });
+    }
+  });
+});
+
+// Debug endpoint to manually verify a user (remove in production)
+app.post('/api/debug/verify-user/:email', (req, res) => {
+  const { email } = req.params;
+  db.run('UPDATE users SET email_verified = 1, verification_token = NULL WHERE email = ?', [email], function(err) {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else if (this.changes === 0) {
+      res.status(404).json({ error: 'User not found' });
+    } else {
+      res.json({ message: 'User verified successfully', email });
+    }
+  });
 });
 
 // Error handling middleware

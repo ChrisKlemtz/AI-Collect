@@ -552,3 +552,206 @@
     transform: translateY(0);
   }
 }
+
+// Mobile Responsive Styles
+@media (max-width: 768px) {
+  .chat-header {
+    padding: $spacing-md;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+
+    .header-left {
+      gap: $spacing-sm;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .back-btn {
+      font-size: 0.8rem;
+      padding: $spacing-xs $spacing-sm;
+      white-space: nowrap;
+
+      // Hide text on very small screens, show only arrow
+      @media (max-width: 480px) {
+        &::after {
+          content: none;
+        }
+      }
+    }
+
+    .chat-title {
+      flex: 1;
+      min-width: 0;
+
+      h2 {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .user-email {
+        font-size: 0.75rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .chat-header-actions {
+      gap: $spacing-sm;
+
+      .clear-btn {
+        font-size: 0.8rem;
+        padding: $spacing-xs $spacing-sm;
+      }
+    }
+  }
+
+  .chat-messages {
+    padding: $spacing-md;
+  }
+
+  .message {
+    max-width: 90%;
+
+    &.user-message,
+    &.assistant-message {
+      .message-content {
+        padding: $spacing-sm $spacing-md;
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  .empty-state {
+    padding: $spacing-lg;
+
+    .empty-icon {
+      font-size: 3.5rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+
+  .chat-input-container {
+    padding: $spacing-md;
+  }
+
+  .chat-input-form {
+    gap: $spacing-sm;
+  }
+
+  .chat-input {
+    padding: $spacing-sm $spacing-md;
+    font-size: 0.95rem;
+  }
+
+  .send-btn {
+    width: 44px;
+    height: 44px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .error-message {
+    margin: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    font-size: 0.9rem;
+  }
+
+  .shortcuts-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .shortcuts-modal-content {
+    padding: $spacing-md;
+  }
+
+  .shortcut-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-sm;
+
+    .shortcut-key {
+      font-size: 0.85rem;
+    }
+
+    .shortcut-desc {
+      margin-left: 0;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-header {
+    padding: $spacing-sm;
+
+    .sidebar-toggle-btn {
+      padding: $spacing-xs;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .chat-title h2 {
+      font-size: 1rem;
+    }
+
+    .shortcuts-btn {
+      padding: $spacing-xs;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  .chat-messages {
+    padding: $spacing-sm;
+  }
+
+  .message {
+    max-width: 95%;
+    margin-bottom: $spacing-md;
+  }
+
+  .message-content {
+    padding: $spacing-xs $spacing-sm;
+    font-size: 0.9rem;
+  }
+
+  .chat-input-container {
+    padding: $spacing-sm;
+  }
+
+  .chat-input {
+    padding: $spacing-xs $spacing-sm;
+    font-size: 0.9rem;
+  }
+
+  .send-btn {
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

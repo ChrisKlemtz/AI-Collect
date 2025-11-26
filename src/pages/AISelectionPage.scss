@@ -17,6 +17,61 @@
   margin: 0 auto;
 }
 
+.ai-selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-2xl;
+  padding-bottom: $spacing-xl;
+  border-bottom: 2px solid $bg-dark-tertiary;
+
+  body.light-mode & {
+    border-bottom-color: $bg-light-tertiary;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0 0 $spacing-xs;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .user-email {
+    color: $text-dark-secondary;
+    font-size: 0.95rem;
+    margin: 0;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+  }
+
+  .logout-btn {
+    padding: $spacing-sm $spacing-xl;
+    background: rgba($danger-color, 0.1);
+    border: 2px solid $danger-color;
+    color: $danger-color;
+    border-radius: $radius-md;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $danger-color;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($danger-color, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
 .page-header {
   margin-bottom: $spacing-lg;
 
@@ -108,6 +163,10 @@
   cursor: pointer;
   transition: all $transition-normal;
   border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 
   body.light-mode & {
     background: $bg-light;
@@ -143,43 +202,49 @@
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
-.ai-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: $spacing-xs;
-}
+.ai-info {
+  width: 100%;
 
-.ai-card p {
-  color: $text-dark-secondary;
-  font-size: 0.95rem;
-  margin-bottom: $spacing-md;
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: $spacing-xs;
+  }
 
-  body.light-mode & {
-    color: $text-light-secondary;
+  p {
+    color: $text-dark-secondary;
+    font-size: 0.95rem;
+    margin-bottom: $spacing-md;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
   }
 }
 
 .ai-status {
   margin-top: $spacing-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
 }
 
 .status-badge {
   display: inline-block;
   padding: $spacing-xs $spacing-md;
-  background: rgba($success-color, 0.2);
-  color: $success-color;
   border-radius: $radius-md;
   font-size: 0.85rem;
   font-weight: 600;
-}
 
-.setup-badge {
-  display: inline-block;
-  padding: $spacing-xs $spacing-md;
-  background: rgba($warning-color, 0.2);
-  color: $warning-color;
-  border-radius: $radius-md;
-  font-size: 0.85rem;
-  font-weight: 600;
+  &.active {
+    background: rgba($success-color, 0.2);
+    color: $success-color;
+  }
+
+  &.inactive {
+    background: rgba($warning-color, 0.2);
+    color: $warning-color;
+  }
 }
 
 .remove-key-btn {
@@ -211,7 +276,8 @@
 }
 
 .ai-actions {
-  margin-top: $spacing-lg;
+  margin-top: $spacing-md;
+  width: 100%;
   display: flex;
   justify-content: center;
 }

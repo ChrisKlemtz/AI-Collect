@@ -187,6 +187,21 @@
   }
 }
 
+.email-info {
+  display: inline-block;
+  margin-top: $spacing-xs;
+  color: $success-color;
+  font-size: 0.85rem;
+  font-style: italic;
+  padding: $spacing-xs $spacing-sm;
+  background: rgba($success-color, 0.1);
+  border-radius: $radius-sm;
+
+  body.light-mode & {
+    background: rgba($success-color, 0.15);
+  }
+}
+
 .pricing-link {
   display: inline-flex;
   align-items: center;

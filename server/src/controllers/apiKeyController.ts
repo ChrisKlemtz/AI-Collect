@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { ApiKeyModel } from '../models/ApiKey';
 import { AuthRequest } from '../middleware/auth';
+import { AIValidator } from '../services/aiValidator';
 
 export class ApiKeyController {
   static async getAll(req: AuthRequest, res: Response) {
@@ -84,7 +85,10 @@ export class ApiKeyController {
         return res.json({ valid: false, message: 'API-Schlüssel nicht gefunden' });
       }
 
-      res.json({ valid: true, message: 'API-Schlüssel vorhanden' });
+      // Actually validate the API key with the provider
+      const validation = await AIValidator.validateProvider(provider, apiKey);
+
+      res.json(validation);
     } catch (error) {
       console.error('Validate API key error:', error);
       res.status(500).json({ error: 'Fehler bei der Validierung des API-Schlüssels' });

@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AIProvider } from '../types'
+import { useAuth } from '../contexts/AuthContext'
+import { apiKeysApi } from '../services/api'
 import { useCompareChat } from '../hooks/useCompareChat'
 import ThemeToggle from '../components/ThemeToggle'
 import MarkdownMessage from '../components/MarkdownMessage'
@@ -14,8 +16,9 @@ const availableProviders: { id: AIProvider; name: string; icon: string }[] = [
 
 function CompareChatPage() {
   const navigate = useNavigate()
-  const [selectedEmail, setSelectedEmail] = useState<string>('')
+  const { user, isAuthenticated } = useAuth()
   const [apiKeys, setApiKeys] = useState<Record<string, string>>({})
+  const [isLoadingKeys, setIsLoadingKeys] = useState(true)
 
   const [provider1, setProvider1] = useState<AIProvider>('chatgpt')
   const [provider2, setProvider2] = useState<AIProvider>('claude')
@@ -32,20 +35,42 @@ function CompareChatPage() {
   })
 
   useEffect(() => {
-    const email = localStorage.getItem('selectedEmail')
-    if (!email) {
-      navigate('/emails')
+    if (!isAuthenticated) {
+      navigate('/login')
       return
     }
-    setSelectedEmail(email)
 
-    const storedKeys = localStorage.getItem(`apiKeys_${email}`)
-    if (storedKeys) {
-      setApiKeys(JSON.parse(storedKeys))
-    } else {
+    loadAPIKeys()
+  }, [isAuthenticated, navigate])
+
+  const loadAPIKeys = async () => {
+    try {
+      setIsLoadingKeys(true)
+      const response = await apiKeysApi.getAll()
+      const keys = response.apiKeys || {}
+
+      const activeKeys = Object.keys(keys).filter((provider) => keys[provider])
+
+      if (activeKeys.length < 2) {
+        alert('Du benötigst mindestens 2 aktive KI-Dienste für den Vergleichsmodus')
+        navigate('/ai-selection')
+        return
+      }
+
+      setApiKeys(keys)
+
+      // Set default providers to first two active keys
+      if (activeKeys.length >= 2) {
+        setProvider1(activeKeys[0] as AIProvider)
+        setProvider2(activeKeys[1] as AIProvider)
+      }
+    } catch (error) {
+      console.error('Failed to load API keys:', error)
       navigate('/ai-selection')
+    } finally {
+      setIsLoadingKeys(false)
     }
-  }, [navigate])
+  }
 
   useEffect(() => {
     messagesEndRef1.current?.scrollIntoView({ behavior: 'smooth' })
@@ -68,6 +93,17 @@ function CompareChatPage() {
     (p) => apiKeys[p.id]
   )
 
+  if (isLoadingKeys) {
+    return (
+      <div className="compare-chat-page">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Lade API-Keys...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="compare-chat-page">
       <div className="compare-header">
@@ -75,7 +111,7 @@ function CompareChatPage() {
           ← Zurück zur Auswahl
         </button>
         <h2>KI-Vergleich</h2>
-        <span className="user-email">{selectedEmail}</span>
+        <span className="user-email">{user?.email}</span>
         <div className="header-actions">
           <ThemeToggle />
           {(messages.provider1.length > 0 || messages.provider2.length > 0) && (

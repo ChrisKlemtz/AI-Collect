@@ -1,4 +1,5 @@
 import { AIProvider } from '../types'
+import { useAuth } from '../contexts/AuthContext'
 import './APIKeyGuideModal.scss'
 
 interface APIKeyGuideModalProps {
@@ -6,19 +7,15 @@ interface APIKeyGuideModalProps {
   onClose: () => void
 }
 
-const apiKeyGuides = {
+const getApiKeyGuides = (userEmail: string) => ({
   chatgpt: {
     name: 'ChatGPT / OpenAI',
     steps: [
       {
-        text: 'Gehe zur OpenAI Platform',
-        link: 'https://platform.openai.com/signup',
+        text: `Melde dich mit deiner Email (${userEmail}) bei OpenAI an oder erstelle einen neuen Account`,
       },
       {
-        text: 'Melde dich an oder erstelle einen Account',
-      },
-      {
-        text: 'Navigiere zu "API Keys" in deinem Dashboard',
+        text: 'Gehe zur API Keys Seite',
         link: 'https://platform.openai.com/api-keys',
       },
       {
@@ -50,7 +47,7 @@ const apiKeyGuides = {
         link: 'https://console.anthropic.com/',
       },
       {
-        text: 'Melde dich an oder erstelle einen Account',
+        text: `Melde dich mit deiner Email (${userEmail}) an oder erstelle einen Account`,
       },
       {
         text: 'Klicke auf "Get API keys" oder navigiere zu den Einstellungen',
@@ -85,7 +82,7 @@ const apiKeyGuides = {
         link: 'https://platform.deepseek.com/',
       },
       {
-        text: 'Melde dich an oder erstelle einen Account',
+        text: `Melde dich mit deiner Email (${userEmail}) an oder erstelle einen Account`,
       },
       {
         text: 'Navigiere zu "API Keys" im Dashboard',
@@ -112,12 +109,14 @@ const apiKeyGuides = {
     ],
     pricing: 'https://platform.deepseek.com/api-docs/pricing/',
   },
-}
+})
 
 export default function APIKeyGuideModal({ provider, onClose }: APIKeyGuideModalProps) {
+  const { user } = useAuth()
+
   if (!provider) return null
 
-  const guide = apiKeyGuides[provider]
+  const guide = getApiKeyGuides(user?.email || '')[provider]
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -147,6 +146,12 @@ export default function APIKeyGuideModal({ provider, onClose }: APIKeyGuideModal
                       >
                         → {step.link}
                       </a>
+                      {step.emailInfo && (
+                        <>
+                          <br />
+                          <span className="email-info">✓ {step.emailInfo}</span>
+                        </>
+                      )}
                     </>
                   ) : (
                     step.text
