@@ -1,0 +1,233 @@
+@import '../styles/variables';
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $spacing-lg;
+}
+
+.modal-content {
+  background: $bg-dark-secondary;
+  border-radius: $radius-lg;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+  body.light-mode & {
+    background: $bg-light;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-xl;
+  border-bottom: 1px solid $bg-dark-tertiary;
+
+  body.light-mode & {
+    border-bottom-color: $bg-light-tertiary;
+  }
+
+  h2 {
+    margin: 0;
+    color: $text-dark;
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    body.light-mode & {
+      color: $text-light;
+    }
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: $text-dark-secondary;
+    cursor: pointer;
+    padding: $spacing-xs;
+    transition: color $transition-fast;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+
+    &:hover {
+      color: $text-dark;
+
+      body.light-mode & {
+        color: $text-light;
+      }
+    }
+  }
+}
+
+.modal-body {
+  padding: $spacing-xl;
+  overflow-y: auto;
+}
+
+.guide-section {
+  margin-bottom: $spacing-xl;
+
+  h3 {
+    margin: 0 0 $spacing-md;
+    color: $text-dark;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    body.light-mode & {
+      color: $text-light;
+    }
+  }
+
+  &.notes {
+    background: $bg-dark;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    border-left: 4px solid $warning-color;
+
+    body.light-mode & {
+      background: $bg-light-secondary;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: $spacing-lg;
+
+      li {
+        color: $text-dark-secondary;
+        margin-bottom: $spacing-sm;
+
+        body.light-mode & {
+          color: $text-light-secondary;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  &.pricing {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    text-align: center;
+  }
+}
+
+.steps-list {
+  margin: 0;
+  padding-left: $spacing-xl;
+  counter-reset: step-counter;
+  list-style: none;
+
+  li {
+    position: relative;
+    color: $text-dark;
+    margin-bottom: $spacing-lg;
+    padding-left: $spacing-md;
+    line-height: 1.6;
+
+    body.light-mode & {
+      color: $text-light;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &::before {
+      counter-increment: step-counter;
+      content: counter(step-counter);
+      position: absolute;
+      left: -$spacing-xl;
+      top: 0;
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, $primary-color, $secondary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.external-link {
+  display: inline-block;
+  margin-top: $spacing-xs;
+  color: $primary-color;
+  text-decoration: none;
+  font-size: 0.9rem;
+  word-break: break-all;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $secondary-color;
+    text-decoration: underline;
+  }
+}
+
+.pricing-link {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-md $spacing-xl;
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: $radius-md;
+  font-weight: 600;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.guide-footer {
+  margin-top: $spacing-xl;
+  padding-top: $spacing-xl;
+  border-top: 1px solid $bg-dark-tertiary;
+  text-align: center;
+
+  body.light-mode & {
+    border-top-color: $bg-light-tertiary;
+  }
+
+  .btn-primary {
+    padding: $spacing-md $spacing-2xl;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    color: white;
+    border: none;
+    border-radius: $radius-md;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform $transition-fast, box-shadow $transition-fast;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+  }
+}

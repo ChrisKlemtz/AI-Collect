@@ -209,3 +209,48 @@
     transform: scale(1.1);
   }
 }
+
+.ai-actions {
+  margin-top: $spacing-lg;
+  display: flex;
+  justify-content: center;
+}
+
+.help-btn {
+  padding: $spacing-sm $spacing-md;
+  background: rgba($primary-color, 0.1);
+  border: 1px solid $primary-color;
+  color: $primary-color;
+  border-radius: $radius-md;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $primary-color;
+    color: white;
+    transform: translateY(-2px);
+  }
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: $danger-color;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: $spacing-xs;
+  margin-left: $spacing-sm;
+  transition: all $transition-fast;
+
+  &:hover {
+    transform: scale(1.2);
+    color: darken($danger-color, 10%);
+  }
+}
+
+.actions {
+  margin-top: $spacing-2xl;
+  text-align: center;
+}

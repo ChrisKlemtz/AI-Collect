@@ -4,7 +4,6 @@ import { useAuth } from '../contexts/AuthContext'
 import { apiKeysApi } from '../services/api'
 import { AIService, AIProvider } from '../types'
 import ThemeToggle from '../components/ThemeToggle'
-import APIKeyGuideModal from '../components/APIKeyGuideModal'
 import './AISelectionPage.scss'
 
 const availableAIs: AIService[] = [
@@ -34,7 +33,6 @@ const availableAIs: AIService[] = [
 function AISelectionPage() {
   const [aiServices, setAiServices] = useState<AIService[]>(availableAIs)
   const [isLoading, setIsLoading] = useState(true)
-  const [showGuideModal, setShowGuideModal] = useState<AIProvider | null>(null)
   const navigate = useNavigate()
   const { user, logout, isAuthenticated } = useAuth()
 
@@ -114,11 +112,6 @@ function AISelectionPage() {
     }
   }
 
-  const handleShowGuide = (provider: AIProvider, e: React.MouseEvent) => {
-    e.stopPropagation()
-    setShowGuideModal(provider)
-  }
-
   const handleLogout = async () => {
     if (confirm('Wirklich abmelden?')) {
       await logout()
@@ -170,17 +163,6 @@ function AISelectionPage() {
                 <h3>{service.name}</h3>
                 <p>{service.description}</p>
               </div>
-
-              <div className="ai-actions">
-                <button
-                  className="help-btn"
-                  onClick={(e) => handleShowGuide(service.id, e)}
-                  title="Wo bekomme ich einen API-Key?"
-                >
-                  ❓ API-Key Hilfe
-                </button>
-              </div>
-
               <div className="ai-status">
                 {service.isActive ? (
                   <>
@@ -211,13 +193,6 @@ function AISelectionPage() {
           </button>
         </div>
       </div>
-
-      {showGuideModal && (
-        <APIKeyGuideModal
-          provider={showGuideModal}
-          onClose={() => setShowGuideModal(null)}
-        />
-      )}
     </div>
   )
 }

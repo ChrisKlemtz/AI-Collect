@@ -71,6 +71,40 @@ export const apiKeysApi = {
   },
 };
 
+// Chats API
+export const chatsApi = {
+  getAll: async (provider?: string) => {
+    const url = provider ? `/api/chats?provider=${provider}` : '/api/chats';
+    const response = await api.get(url);
+    return response.data;
+  },
+
+  getChat: async (chatId: string) => {
+    const response = await api.get(`/api/chats/${chatId}`);
+    return response.data;
+  },
+
+  create: async (id: string, title: string, provider: string) => {
+    const response = await api.post('/api/chats', { id, title, provider });
+    return response.data;
+  },
+
+  updateMessages: async (chatId: string, messages: any[]) => {
+    const response = await api.put(`/api/chats/${chatId}/messages`, { messages });
+    return response.data;
+  },
+
+  rename: async (chatId: string, title: string) => {
+    const response = await api.put(`/api/chats/${chatId}/title`, { title });
+    return response.data;
+  },
+
+  delete: async (chatId: string) => {
+    const response = await api.delete(`/api/chats/${chatId}`);
+    return response.data;
+  },
+};
+
 // Health check
 export const healthCheck = async () => {
   const response = await api.get('/api/health');

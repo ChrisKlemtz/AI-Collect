@@ -63,6 +63,8 @@ function initializeDatabase() {
       title TEXT NOT NULL,
       provider TEXT NOT NULL,
       messages TEXT NOT NULL,
+      last_message TEXT DEFAULT '',
+      message_count INTEGER DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
