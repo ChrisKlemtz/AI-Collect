@@ -56,6 +56,26 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
+
+  .error-message {
+    padding: $spacing-md;
+    background: rgba(255, 77, 77, 0.1);
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    border-radius: $radius-md;
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  small {
+    font-size: 0.85rem;
+    color: $text-dark-secondary;
+    margin-top: -0.25rem;
+
+    body.light-mode & {
+      color: $text-light-secondary;
+    }
+  }
 }
 
 .form-group {
@@ -115,13 +135,42 @@
   font-weight: 600;
   transition: transform $transition-fast, box-shadow $transition-fast;
 
-  &:hover {
+  &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: $shadow-lg;
   }
 
-  &:active {
+  &:active:not(:disabled) {
     transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-resend {
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  background: transparent;
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  border-radius: $radius-md;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover:not(:disabled) {
+    background: $primary-color;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 }
 

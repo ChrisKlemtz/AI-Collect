@@ -9,6 +9,24 @@
   body.light-mode & {
     background: $bg-light;
   }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: $spacing-lg;
+
+    p {
+      color: $text-dark-secondary;
+      font-size: 1rem;
+
+      body.light-mode & {
+        color: $text-light-secondary;
+      }
+    }
+  }
 }
 
 .chat-header {

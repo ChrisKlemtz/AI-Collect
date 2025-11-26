@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "server": "tsx watch server/src/index.ts",
+    "server:prod": "NODE_ENV=production tsx server/src/index.ts",
+    "dev:all": "concurrently \"npm run dev\" \"npm run server\""
   },
   "keywords": [
     "ai",
@@ -19,23 +22,42 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/express-session": "^1.18.2",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^5.1.1",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.11",
     "sass": "^1.94.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vite": "^7.2.4"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.0",
     "axios": "^1.13.2",
+    "bcryptjs": "^3.0.3",
+    "connect-sqlite3": "^0.9.16",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "jsonwebtoken": "^9.0.2",
     "openai": "^6.9.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.9.6",
-    "react-syntax-highlighter": "^16.1.0"
+    "react-syntax-highlighter": "^16.1.0",
+    "resend": "^6.5.2",
+    "sqlite3": "^5.1.7"
   }
 }

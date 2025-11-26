@@ -1,22 +1,29 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AIProvider } from '../types'
+import { useAuth } from '../contexts/AuthContext'
+import { apiKeysApi } from '../services/api'
 import { useChat } from '../hooks/useChat'
 import { useChatHistory } from '../hooks/useChatHistory'
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts'
+import { usePromptPresets } from '../hooks/usePromptPresets'
 import ThemeToggle from '../components/ThemeToggle'
 import MarkdownMessage from '../components/MarkdownMessage'
 import ChatHistorySidebar from '../components/ChatHistorySidebar'
+import { PromptPresetsBar } from '../components/PromptPresetsBar'
+import { PromptPresetsModal } from '../components/PromptPresetsModal'
 import './ChatPage.scss'
 
 function ChatPage() {
   const { provider } = useParams<{ provider: AIProvider }>()
   const navigate = useNavigate()
+  const { user, isAuthenticated } = useAuth()
   const [inputMessage, setInputMessage] = useState('')
-  const [selectedEmail, setSelectedEmail] = useState<string>('')
   const [apiKey, setApiKey] = useState<string>('')
+  const [isLoadingKey, setIsLoadingKey] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false)
+  const [showPresetsModal, setShowPresetsModal] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -29,38 +36,48 @@ function ChatPage() {
     renameChat,
     deleteChat,
   } = useChatHistory({
-    email: selectedEmail,
+    email: user?.email || '',
     provider: provider as AIProvider,
   })
 
-  const chatId = currentChatId || `${selectedEmail}_${provider}`
+  const chatId = currentChatId || `${user?.email}_${provider}`
   const { messages, isLoading, error, streamingMessage, sendMessage, clearChat } = useChat({
     provider: provider as AIProvider,
     apiKey,
     chatId,
   })
 
+  const { presets, addPreset, updatePreset, deletePreset, applyPreset } = usePromptPresets()
+
+  // Check authentication and load API key
   useEffect(() => {
-    const email = localStorage.getItem('selectedEmail')
-    if (!email) {
-      navigate('/emails')
+    if (!isAuthenticated) {
+      navigate('/login')
       return
     }
-    setSelectedEmail(email)
 
-    // Check if API key exists
-    const storedKeys = localStorage.getItem(`apiKeys_${email}`)
-    if (storedKeys) {
-      const keys = JSON.parse(storedKeys)
+    loadAPIKey()
+  }, [isAuthenticated, provider, navigate])
+
+  const loadAPIKey = async () => {
+    try {
+      setIsLoadingKey(true)
+      const response = await apiKeysApi.getAll()
+      const keys = response.apiKeys || {}
+
       if (!keys[provider as string]) {
+        // No API key for this provider
         navigate('/ai-selection')
       } else {
         setApiKey(keys[provider as string])
       }
-    } else {
+    } catch (error) {
+      console.error('Failed to load API key:', error)
       navigate('/ai-selection')
+    } finally {
+      setIsLoadingKey(false)
     }
-  }, [provider, navigate])
+  }
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -80,6 +97,12 @@ function ChatPage() {
 
     await sendMessage(inputMessage)
     setInputMessage('')
+  }
+
+  const handlePresetSelect = (preset: any) => {
+    const presetText = applyPreset(preset)
+    setInputMessage(presetText)
+    inputRef.current?.focus()
   }
 
   const getProviderName = () => {
@@ -159,6 +182,18 @@ function ChatPage() {
     enabled: true,
   })
 
+  // Show loading state while checking authentication and loading API key
+  if (isLoadingKey) {
+    return (
+      <div className="chat-page">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Lade...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="chat-page">
       <ChatHistorySidebar
@@ -203,7 +238,7 @@ function ChatPage() {
         </div>
         <div className="chat-title">
           <h2>{getProviderName()}</h2>
-          <span className="user-email">{selectedEmail}</span>
+          <span className="user-email">{user?.email}</span>
         </div>
         <div className="chat-header-actions">
           <button
@@ -229,6 +264,16 @@ function ChatPage() {
           )}
         </div>
       </div>
+
+      {/* Prompt Presets Modal */}
+      <PromptPresetsModal
+        isOpen={showPresetsModal}
+        presets={presets}
+        onClose={() => setShowPresetsModal(false)}
+        onAdd={addPreset}
+        onUpdate={updatePreset}
+        onDelete={deletePreset}
+      />
 
       {/* Keyboard Shortcuts Help Modal */}
       {showShortcutsHelp && (
@@ -336,6 +381,12 @@ function ChatPage() {
             ⚠️ {error}
           </div>
         )}
+
+        <PromptPresetsBar
+          presets={presets}
+          onSelectPreset={handlePresetSelect}
+          onManagePresets={() => setShowPresetsModal(true)}
+        />
 
         <div className="chat-input-container">
           <form className="chat-input-form" onSubmit={handleSendMessage}>

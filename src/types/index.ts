@@ -58,3 +58,13 @@ export interface APIKeyConfig {
   apiKey: string;
   isValid: boolean;
 }
+
+// Prompt Preset Types
+export interface PromptPreset {
+  id: string;
+  name: string;
+  prompt: string;
+  icon?: string;
+  isDefault: boolean;
+  createdAt: Date;
+}
